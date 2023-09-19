@@ -24,7 +24,7 @@ const ChatFrontPage: React.FC = () => {
 
   return (
   <div className='min-h-screen flex flex-col items-center justify-center'>
-    {!sessionData?.user ? <HypeHouse/> : <> {startQuery ? <><HypeHouse/></> : <>
+    {sessionData?.user ? <HypeHouse/> : <> {startQuery ? <><HypeHouse/></> : <>
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-3xl font-semibold mb-4">HypeHouse Chat Room</h1>
         <p className="text-gray-600 mb-6">Hail Satan</p>
