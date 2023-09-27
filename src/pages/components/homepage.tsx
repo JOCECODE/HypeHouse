@@ -24,7 +24,7 @@ const ChatFrontPage: React.FC = () => {
 
   return (
   <div className='min-h-screen flex flex-col items-center justify-center'>
-    {sessionData?.user ? <HypeHouse/> : <> {startQuery ? <><HypeHouse/></> : <>
+   {/*  {startQuery ? <><HypeHouse/></> : <>
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-3xl font-semibold mb-4">HypeHouse Chat Room</h1>
         <p className="text-gray-600 mb-6">Hail Satan</p>
@@ -39,9 +39,46 @@ const ChatFrontPage: React.FC = () => {
           <p className="text-green-500 font-semibold">HypeHouse Chat Room</p>
         )}
       </div>
-      <div className="mt-4"> {/* Add margin top to create space */}
+      <div className="mt-4"> 
         <AuthShowcase />
-      </div></>}</>}
+      </div></>} */}
+      {sessionData?.user ? <HypeHouse/> : <>  <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-3xl font-semibold mb-4">HypeHouse Chat Room</h1>
+        <p className="text-gray-600 mb-6">Hail Satan</p>
+        {!userEntered ? (
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full"
+            onClick={handleEnterChatRoom}
+          >
+            Enter Chat Room
+          </button>
+        ) : (
+          <p className="text-green-500 font-semibold">HypeHouse Chat Room</p>
+        )}
+      </div>
+      <div className="mt-4"> 
+        <AuthShowcase />
+      </div></>}
+      {/* {startQuery ? <><HypeHouse/></> : <>
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-3xl font-semibold mb-4">HypeHouse Chat Room</h1>
+        <p className="text-gray-600 mb-6">Hail Satan</p>
+        {!userEntered ? (
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full"
+            onClick={handleEnterChatRoom}
+          >
+            Enter Chat Room
+          </button>
+        ) : (
+          <p className="text-green-500 font-semibold">HypeHouse Chat Room</p>
+        )}
+      </div>
+      <div className="mt-4"> 
+        <AuthShowcase />
+      </div></>} 
+     */}
+    
    
   </div>
     
