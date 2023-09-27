@@ -1,7 +1,10 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
 
+
 const HypeHouse: React.FC = () => {
+
+  
   const { data: sessionData } = useSession();
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"success" | "error" | "idle">("idle");
@@ -24,6 +27,16 @@ const HypeHouse: React.FC = () => {
     // }
   };
 
+  const buttonStyle: React.CSSProperties = {
+    height: "50px",
+    width: "50px",
+    borderRadius: "50%",
+    backgroundColor: "#ffdb4d",
+    animation: "buttonAnimation .8s",
+    transformOrigin: "center",
+    cursor: "pointer",
+    fontSize: "36px",
+  };
     const chatMessages = [
         { id: 1, author: 'Uly', text: 'Hello, everyone!' },
         { id: 2, author: 'Alyssa', text: 'Hi Uly, how are you?' },
@@ -52,6 +65,8 @@ const HypeHouse: React.FC = () => {
     }
   }, [chatMessages]);
       return (
+
+        
         <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-md">
       <h1 className="text-3xl font-semibold mb-2">HypeHouse Chat</h1>
       <h4 className="text-lg font-semibold mb-2">Members: Uly Alyssa Jose Alfredo</h4>
@@ -92,6 +107,7 @@ const HypeHouse: React.FC = () => {
               onChange={(e) => setMessage(e.target.value)}
             /> */}
           <textarea
+            style={{resize: "none"}}
             placeholder={` Hello, ${sessionData?.user.name} text here`}
             id="message"
             value={message}
@@ -104,14 +120,15 @@ const HypeHouse: React.FC = () => {
           />
           {message ? (
           <button
-            className="h-10 w-10 rounded-full bg-yellow-400"
             onClick={handleSubmitMessage}
+            style={buttonStyle}
           >
-            ^
+            &#8593;
           </button>
         ) : (
           <img
             className="h-10 w-10 rounded-full"
+            style={{ height: "50%", width: "17%"}}
             src={
               sessionData
                 ? sessionData?.user.image
@@ -123,6 +140,25 @@ const HypeHouse: React.FC = () => {
        
         </div>
       </div>
+      <style>
+        {`
+          @keyframes buttonAnimation {
+            0% {
+              transform: scale(.1) rotate(180deg); /* Initial scale */
+              background-color: none; /* Initial background color */
+              font-size: 36px;
+            }
+            
+            100% {
+              transform: scale(1); /* Slightly larger scale at midpoint */
+              background-color: #ffdb4d; /* Color change at midpoint */
+              font-size: 36px;
+              transform: scale(1) rotate(0deg);
+            }
+            
+          }
+        `}
+      </style>
     </div>
 
       );
