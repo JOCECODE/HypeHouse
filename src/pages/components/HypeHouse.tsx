@@ -1,18 +1,37 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
-
+import { api } from "../../utils/api";
 
 const HypeHouse: React.FC = () => {
+  const mutation = api.example.writeText.useMutation();
+  const {isLoading, refetch, isError, data: messageData } = api.example.getAllMessages.useQuery(undefined,  {
+    refetchOnWindowFocus: true,
+    
+  });
 
+  function runOnceAfterDelay() {
+    setTimeout(() => {
+      // This code will run after waiting for 1 second
+      console.log("This code runs once after waiting for 1 second.");
+      refetch();
+  
+      // You can put your own code here that you want to execute after the delay.
+    }, 500); // 1000 milliseconds = 1 second
+  }
+  
   
   const { data: sessionData } = useSession();
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"success" | "error" | "idle">("idle");
 
-  const handleSubmitMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStatus("idle");
-    console.log("handling submit");
+  const handleSubmitMessage = async () => {
+    mutation.mutate({
+      img: sessionData?.user.image,
+      name: sessionData?.user.name,
+      message: message,
+      email: sessionData?.user.email,
+
+    });
     setMessage("");
     // try {
     //   await axios.post('/send-email', {
@@ -25,6 +44,7 @@ const HypeHouse: React.FC = () => {
     // } catch (err) {
     //   setStatus('error');
     // }
+    runOnceAfterDelay();
   };
 
   const buttonStyle: React.CSSProperties = {
@@ -37,13 +57,7 @@ const HypeHouse: React.FC = () => {
     cursor: "pointer",
     fontSize: "36px",
   };
-    const chatMessages = [
-        { id: 1, author: 'Uly', text: 'Hello, everyone!' },
-        { id: 2, author: 'Alyssa', text: 'Hi Uly, how are you?' },
-        { id: 3, author: 'Jose', text: "I'm good, thanks!" },
-        { id: 4, author: 'Alfredo', text: 'I will do anything for you it is quite alright these dreams are the ones I close my eyes and look at you.' },
-      ];
-    
+  
       
   const [inputFocused, setInputFocused] = useState(false); // State to track input focus
   const lastMessageRef = useRef<HTMLLIElement | null>(null); // Reference to the last message element
@@ -58,12 +72,13 @@ const HypeHouse: React.FC = () => {
   };
   
 
+
   useEffect(() => {
     // Scroll to the last message when the component mounts or when chatMessages change
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [chatMessages]);
+  }, [messageData]);
       return (
 
         
@@ -77,26 +92,22 @@ const HypeHouse: React.FC = () => {
           style={{ maxHeight: '450px' }} // Set a max height for the scrollable area
         >
           {/* Render chat messages here */}
-          {chatMessages.map((message, index) => (
+          {isLoading ? "loading" : <>{messageData.map((text, index) => (
             <div
-              key={message.id}
+              key={text.id}
               className="flex py-4 first:pt-0 last:pb-0"
-              ref={index === chatMessages.length - 1 ? lastMessageRef : null} // Set ref to the last message
+              ref={index === messageData.length - 1 ? lastMessageRef : null} // Set ref to the last message
             >
               <img
                 className="h-10 w-10 rounded-full"
-                src={
-                  sessionData
-                    ? sessionData?.user.image
-                    : 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fthenounproject.com%2Fbrowse%2Ficons%2Fterm%2Fsmall-dog%2F&psig=AOvVaw04JNO4HB8XqOd-6D_OYKon&ust=1695201109934000&source=images&cd=vfe&opi=89978449&ved=0CA8QjRxqFwoTCID277aqtoEDFQAAAAAdAAAAABAE'
-                }
+                src={text.img}
                 alt="googleProfilePicture"
               />
               <div className="mt-1 ml-2">
-                <strong>{message.author}:</strong> {message.text}
+                <strong>{text.name}:</strong> {text.message}
               </div>
             </div>
-          ))}
+          ))}</>}
         </div>
         {/* Input message */}
         <div className={`flex py-4 first:pt-0 last:pb-0 `}>

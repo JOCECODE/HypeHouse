@@ -15,8 +15,30 @@ export const exampleRouter = createTRPCRouter({
       };
     }),
 
+    writeText: protectedProcedure
+    .input(z.object({ 
+      img: z.string(),
+      name: z.string(),
+      message: z.string(),
+      email: z.string(),
+    })).mutation(({ctx, input}) => {
+      const newMessage = ctx.prisma.messages.create({
+        data: {
+          img: input.img,
+          name: input.name,
+          message: input.message,
+          email: input.email,
+        }
+      });
+      return newMessage;
+    }),
+
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.example.findMany();
+  }),
+
+  getAllMessages: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.messages.findMany();
   }),
 
   getSecretMessage: protectedProcedure.query(() => {
