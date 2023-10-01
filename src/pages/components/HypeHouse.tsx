@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
 import { api } from "../../utils/api";
 import TorbLoading from "./TorbLoading";
+import AuthShowcase from "./AuthShowcase";
 
 const HypeHouse: React.FC = () => {
   const mutation = api.example.writeText.useMutation();
@@ -83,7 +84,9 @@ const HypeHouse: React.FC = () => {
       return (
 
         
-       isLoading ? <TorbLoading/>: <> <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-md">
+       isLoading ? <TorbLoading/>: <> 
+       <AuthShowcase/>
+       <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-md">
        <h1 className="text-3xl font-semibold mb-2">HypeHouse Chat</h1>
        <h4 className="text-lg font-semibold mb-2">Members: Uly Alyssa Jose Alfredo</h4>
        <div className="bg-gray-100 p-4 rounded-md">
@@ -151,7 +154,9 @@ const HypeHouse: React.FC = () => {
          )}
         
          </div>
+         
        </div>
+       
        <style>
          {`
            @keyframes buttonAnimation {
@@ -171,7 +176,8 @@ const HypeHouse: React.FC = () => {
            }
          `}
        </style>
-     </div></>
+     </div>
+     </>
 
       );
     };

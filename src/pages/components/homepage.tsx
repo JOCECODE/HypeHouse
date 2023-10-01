@@ -10,10 +10,6 @@ const ChatFrontPage: React.FC = () => {
   const userInformation = api.example.getUser.useQuery({email: `${sessionData?.user.email}`});
   const [userEntered, setUserEntered] = useState(false);
   const [startQuery, setStartQuery] = useState(false);
-  // if sessionData.user === approved user display HypeHouse else show the chat room button. 
-  // There should also be a log in log out button so that they can 
-  // userInformation.isLoading display something else show the component
-  // then the second check should be userInformation.data?.email === sessionData?.user.email
 
  console.log(userInformation.data?.email === sessionData?.user.email);
   const handleStartQuery = () => {
